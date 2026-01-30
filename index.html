@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0b0f19" />
+  <meta name="description" content="Agenda Blindada: agenda segura e profissional com confirmação e lembretes via WhatsApp. Feita para negócios e equipas." />
+  <title>Agenda Blindada — Agenda segura com WhatsApp</title>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Agenda Blindada — Agenda segura com WhatsApp" />
+  <meta property="og:description" content="Organize marcações, confirme por WhatsApp e reduza faltas. Multi-empresa, seguro e pronto para escalar." />
+  <meta property="og:type" content="website" />
+
+  <!-- Replace with your domain when ready -->
+  <meta property="og:url" content="https://example.com" />
+
+  <style>
+    :root{
+      --bg: #070a12;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.10);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.70);
+      --muted2: rgba(255,255,255,.56);
+      --stroke: rgba(255,255,255,.14);
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
+      --radius: 18px;
+      --radius2: 28px;
+      --max: 1120px;
+      --accent1: #7C3AED;
+      --accent2: #22C55E;
+      --accent3: #06B6D4;
+      --accent4: #F59E0B;
+      --focus: 0 0 0 4px rgba(124,58,237,.28);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--text);
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(124,58,237,.40), transparent 55%),
+                  radial-gradient(900px 520px at 85% 0%, rgba(34,197,94,.28), transparent 55%),
+                  radial-gradient(900px 520px at 10% 70%, rgba(6,182,212,.20), transparent 55%),
+                  linear-gradient(180deg, #060814 0%, #070a12 32%, #060814 100%);
+      overflow-x:hidden;
+    }
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:var(--max); margin:0 auto; padding:24px}
+    .nav{
+      position:sticky; top:0; z-index:30;
+      backdrop-filter: blur(10px);
+      background: rgba(7,10,18,.55);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .nav-inner{display:flex; align-items:center; justify-content:space-between; gap:14px}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.2px}
+    .logo{
+      width:36px; height:36px; border-radius:12px;
+      background: conic-gradient(from 210deg, var(--accent1), var(--accent3), var(--accent2), var(--accent4), var(--accent1));
+      box-shadow: 0 12px 30px rgba(124,58,237,.25);
+      position:relative;
+    }
+    .logo:after{
+      content:"";
+      position:absolute; inset:1px;
+      border-radius:11px;
+      background: radial-gradient(14px 14px at 30% 30%, rgba(255,255,255,.18), rgba(255,255,255,.06));
+      border:1px solid rgba(255,255,255,.18);
+    }
+    .nav-links{display:flex; gap:16px; align-items:center}
+    .nav-links a{color:var(--muted); font-weight:600; font-size:14px}
+    .nav-links a:hover{color:var(--text)}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 14px; border-radius:12px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      font-weight:700; font-size:14px;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      box-shadow: 0 10px 26px rgba(0,0,0,.25);
+      cursor:pointer;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.22)}
+    .btn:focus{outline:none; box-shadow: var(--focus)}
+    .btn.primary{
+      border-color: rgba(124,58,237,.55);
+      background: linear-gradient(135deg, rgba(124,58,237,.95), rgba(6,182,212,.75));
+    }
+    .btn.primary:hover{filter:saturate(1.05) brightness(1.02)}
+    .hero{
+      padding:54px 0 22px;
+      position:relative;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap:26px;
+      align-items:stretch;
+    }
+    .kicker{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      font-weight:700;
+      font-size:12px;
+      letter-spacing:.25px;
+    }
+    .kicker .dot{
+      width:8px; height:8px; border-radius:99px;
+      background: linear-gradient(135deg, var(--accent2), var(--accent3));
+      box-shadow: 0 0 0 4px rgba(34,197,94,.14);
+    }
+    h1{
+      margin:14px 0 10px;
+      font-size: clamp(34px, 4.6vw, 56px);
+      line-height: 1.02;
+      letter-spacing: -0.8px;
+    }
+    .lead{
+      margin:0 0 18px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.55;
+      max-width: 60ch;
+    }
+    .cta-row{display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin:18px 0 10px}
+    .tiny{
+      color: var(--muted2);
+      font-size: 12px;
+      line-height:1.5;
+      display:flex; gap:10px; flex-wrap:wrap;
+    }
+    .tiny span{
+      display:inline-flex; gap:8px; align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+    .tiny i{
+      width:10px; height:10px; border-radius:99px;
+      background: rgba(34,197,94,.85);
+      box-shadow: 0 0 0 4px rgba(34,197,94,.12);
+      display:inline-block;
+    }
+    .panel{
+      border-radius: var(--radius2);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .panel:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(420px 280px at 80% 20%, rgba(124,58,237,.35), transparent 60%),
+                  radial-gradient(380px 240px at 20% 40%, rgba(6,182,212,.22), transparent 60%);
+      filter: blur(10px);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .panel-inner{position:relative; padding:18px}
+    .mock{
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(3,5,12,.60);
+      overflow:hidden;
+    }
+    .mock-top{
+      display:flex; justify-content:space-between; align-items:center;
+      padding:10px 12px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      color: var(--muted);
+      font-weight:700;
+      font-size:12px;
+    }
+    .pills{display:flex; gap:8px; align-items:center}
+    .pill{width:10px; height:10px; border-radius:99px; background: rgba(255,255,255,.16)}
+    .pill:nth-child(1){background: rgba(245,158,11,.85)}
+    .pill:nth-child(2){background: rgba(34,197,94,.85)}
+    .pill:nth-child(3){background: rgba(6,182,212,.85)}
+    .mock-body{padding:14px}
+    .row{display:flex; gap:10px; margin:10px 0}
+    .chip{
+      padding:7px 10px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      font-size:12px;
+      font-weight:700;
+      white-space:nowrap;
+    }
+    .card{
+      flex:1;
+      padding:12px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+    }
+    .card h3{margin:0 0 6px; font-size:13px; letter-spacing:.2px}
+    .card p{margin:0; color:var(--muted); font-size:12px; line-height:1.45}
+    .stat{
+      display:flex; align-items:flex-end; justify-content:space-between; gap:12px;
+      padding:12px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.12);
+      background: linear-gradient(135deg, rgba(124,58,237,.18), rgba(34,197,94,.10));
+    }
+    .stat b{font-size:22px}
+    .stat small{color:var(--muted); font-weight:700}
+    .section{padding:46px 0}
+    .section h2{
+      margin:0 0 10px;
+      font-size: clamp(24px, 3vw, 34px);
+      letter-spacing: -.4px;
+    }
+    .section p{margin:0; color:var(--muted); line-height:1.65}
+    .cards{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+    }
+    .feature{
+      padding:16px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 10px 30px rgba(0,0,0,.18);
+      min-height: 150px;
+    }
+    .feature .icon{
+      width:38px; height:38px; border-radius:14px;
+      background: linear-gradient(135deg, rgba(34,197,94,.85), rgba(6,182,212,.80));
+      display:flex; align-items:center; justify-content:center;
+      border:1px solid rgba(255,255,255,.20);
+      box-shadow: 0 12px 30px rgba(6,182,212,.16);
+      margin-bottom:10px;
+    }
+    .feature h3{margin:0 0 8px; font-size:15px}
+    .feature p{margin:0; color:var(--muted); font-size:13px; line-height:1.55}
+    .how{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:12px;
+    }
+    .step{
+      padding:14px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.12);
+    }
+    .step b{
+      display:inline-flex;
+      font-family:var(--mono);
+      font-size:12px;
+      padding:5px 8px;
+      border-radius:10px;
+      background: rgba(124,58,237,.18);
+      border:1px solid rgba(124,58,237,.35);
+      margin-bottom:10px;
+    }
+    .step h4{margin:0 0 6px; font-size:14px}
+    .step p{margin:0; color:var(--muted); font-size:13px; line-height:1.55}
+    .split{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+      margin-top:18px;
+    }
+    .box{
+      padding:16px;
+      border-radius: var(--radius);
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+    }
+    .box h3{margin:0 0 8px; font-size:15px}
+    .box ul{margin:0; padding-left:18px; color:var(--muted); line-height:1.75}
+    .box li{margin:6px 0}
+    .faq{margin-top:16px; display:grid; gap:10px}
+    details{
+      border-radius: var(--radius);
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      padding:12px 14px;
+    }
+    summary{
+      cursor:pointer;
+      list-style:none;
+      font-weight:800;
+      color:var(--text);
+      display:flex; justify-content:space-between; gap:12px; align-items:center;
+    }
+    summary::-webkit-details-marker{display:none}
+    summary:after{
+      content:"+";
+      color: var(--muted);
+      font-size:18px;
+      line-height:1;
+    }
+    details[open] summary:after{content:"–"}
+    details p{margin:10px 0 0; color:var(--muted); line-height:1.65; font-size:13px}
+    .footer{
+      padding:34px 0 60px;
+      border-top:1px solid rgba(255,255,255,.10);
+      color: var(--muted2);
+    }
+    .footer-inner{display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap}
+    .small{font-size:12px; line-height:1.6}
+    .kbd{
+      font-family: var(--mono);
+      padding:2px 6px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.82);
+    }
+    .notice{
+      margin-top:14px;
+      padding:12px 14px;
+      border-radius: var(--radius);
+      border:1px dashed rgba(255,255,255,.18);
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      font-size:12px;
+      line-height:1.6;
+    }
+    @media (max-width: 980px){
+      .grid{grid-template-columns:1fr}
+      .cards{grid-template-columns:1fr}
+      .how{grid-template-columns:1fr 1fr}
+      .split{grid-template-columns:1fr}
+      .nav-links{display:none}
+      .hero{padding-top:34px}
+    }
+    @media (max-width: 520px){
+      .how{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top" aria-label="Agenda Blindada">
+        <span class="logo" aria-hidden="true"></span>
+        <span>Agenda Blindada</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Navegação">
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#recursos">Recursos</a>
+        <a href="#seguranca">Segurança</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <a class="btn primary" href="mailto:menom_pi@hotmail.com?subject=Agenda%20Blindada%20—%20Contacto" aria-label="Falar connosco por email">
+        Pedir demo
+      </a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="wrap hero">
+      <div class="grid">
+        <div>
+          <span class="kicker"><span class="dot"></span> Agenda segura + WhatsApp • Multi-empresa</span>
+          <h1>Agendamentos confirmados, menos faltas, mais controlo.</h1>
+          <p class="lead">
+            <strong>Agenda Blindada</strong> é uma agenda profissional para equipas e negócios, com confirmações e lembretes via WhatsApp,
+            histórico de contactos e gestão por empresa — sem misturar dados entre clientes.
+          </p>
+
+          <div class="cta-row">
+            <a class="btn primary" href="mailto:menom_pi@hotmail.com?subject=Quero%20uma%20demo%20—%20Agenda%20Blindada">Quero uma demo</a>
+            <a class="btn" href="#como-funciona">Ver como funciona</a>
+          </div>
+
+          <div class="tiny" role="list" aria-label="Destaques">
+            <span role="listitem"><i></i> Multi-tenant (cada empresa isolada)</span>
+            <span role="listitem"><i></i> Confirmação + lembretes por WhatsApp</span>
+            <span role="listitem"><i></i> Backoffice simples, pronto para escalar</span>
+          </div>
+
+          <div class="notice">
+            <b>Nota:</b> Esta página é uma landing oficial do projeto para fins de apresentação e verificação.
+            O produto pode estar em desenvolvimento e sujeito a alterações.
+          </div>
+        </div>
+
+        <div class="panel" aria-label="Pré-visualização do produto">
+          <div class="panel-inner">
+            <div class="mock">
+              <div class="mock-top">
+                <span>Dashboard — Agenda Blindada</span>
+                <span class="pills" aria-hidden="true"><span class="pill"></span><span class="pill"></span><span class="pill"></span></span>
+              </div>
+              <div class="mock-body">
+                <div class="row">
+                  <span class="chip">Hoje</span>
+                  <span class="chip">Próximos 7 dias</span>
+                  <span class="chip">Empresas</span>
+                  <span class="chip">Templates</span>
+                </div>
+
+                <div class="row">
+                  <div class="card">
+                    <h3>Marcações</h3>
+                    <p>Crie, reagende e confirme com 1 clique.</p>
+                  </div>
+                  <div class="card">
+                    <h3>WhatsApp</h3>
+                    <p>Lembretes automáticos + confirmação.</p>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="stat">
+                    <div>
+                      <small>Taxa de confirmação</small><br/>
+                      <b>↑ 32%</b>
+                    </div>
+                    <small>últimos 30 dias</small>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="card">
+                    <h3>Isolamento por empresa</h3>
+                    <p>Dados separados e permissões por equipa.</p>
+                  </div>
+                  <div class="card">
+                    <h3>Auditoria</h3>
+                    <p>Registos e trilha de alterações.</p>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <span class="chip">Supabase</span>
+                  <span class="chip">Vercel</span>
+                  <span class="chip">WhatsApp Cloud API</span>
+                  <span class="chip">Next.js</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap">
+              <span class="chip">SaaS</span>
+              <span class="chip">Agendamento</span>
+              <span class="chip">Confirmações</span>
+              <span class="chip">Lembretes</span>
+              <span class="chip">Multi-empresa</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="como-funciona" class="wrap section">
+      <h2>Como funciona</h2>
+      <p>Um fluxo simples, pensado para operar com várias empresas (clientes) com tokens e números separados.</p>
+
+      <div class="how">
+        <div class="step">
+          <b>01</b>
+          <h4>Empresa entra</h4>
+          <p>O cliente cria/usa o próprio Business Manager e liga o número de WhatsApp.</p>
+        </div>
+        <div class="step">
+          <b>02</b>
+          <h4>Conecta a conta</h4>
+          <p>Onboarding guiado: token/WABA ficam associados apenas à empresa do cliente.</p>
+        </div>
+        <div class="step">
+          <b>03</b>
+          <h4>Agenda e confirma</h4>
+          <p>Marcações, reagendamentos e confirmações por WhatsApp com histórico.</p>
+        </div>
+        <div class="step">
+          <b>04</b>
+          <h4>Automatiza</h4>
+          <p>Lembretes (24h/2h), mensagens de agradecimento e rebooking opcional.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="recursos" class="wrap section">
+      <h2>Recursos principais</h2>
+      <p>O essencial para reduzir no-shows e profissionalizar o atendimento — sem complexidade.</p>
+
+      <div class="cards">
+        <div class="feature">
+          <div class="icon" aria-hidden="true">📆</div>
+          <h3>Agendamento rápido</h3>
+          <p>Crie marcações, bloqueios de agenda e reagendamentos com controlo por equipa.</p>
+        </div>
+        <div class="feature">
+          <div class="icon" aria-hidden="true">💬</div>
+          <h3>WhatsApp integrado</h3>
+          <p>Confirmação e lembretes automáticos via WhatsApp Cloud API, com logs e templates.</p>
+        </div>
+        <div class="feature">
+          <div class="icon" aria-hidden="true">🏢</div>
+          <h3>Multi-empresa isolado</h3>
+          <p>Estrutura SaaS (multi-tenant): cada cliente com dados, números e tokens separados.</p>
+        </div>
+        <div class="feature">
+          <div class="icon" aria-hidden="true">🔐</div>
+          <h3>Permissões & auditoria</h3>
+          <p>Perfis de acesso e registos de alterações para segurança e rastreabilidade.</p>
+        </div>
+        <div class="feature">
+          <div class="icon" aria-hidden="true">⚡</div>
+          <h3>Rápido e escalável</h3>
+          <p>Next.js + Vercel para performance; Supabase para dados e autenticação.</p>
+        </div>
+        <div class="feature">
+          <div class="icon" aria-hidden="true">🧩</div>
+          <h3>Pronto para integrações</h3>
+          <p>Webhooks e endpoints para CRM, pagamentos e integrações sob medida.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="seguranca" class="wrap section">
+      <h2>Segurança e conformidade</h2>
+
+      <div class="split">
+        <div class="box">
+          <h3>O que significa “blindada”</h3>
+          <ul>
+            <li><b>Isolamento de dados</b> por empresa (multi-tenant) com regras de acesso.</li>
+            <li><b>Tokens separados</b> por cliente para WhatsApp Cloud API (evita “contaminação”).</li>
+            <li><b>Auditoria</b> e logs para rastrear eventos e alterações.</li>
+            <li><b>Boas práticas</b> de armazenamento de segredos (env vars, rotação, etc.).</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Transparência com os clientes</h3>
+          <ul>
+            <li>O número de WhatsApp e a conta WABA pertencem ao <b>cliente</b>.</li>
+            <li>Você fornece o <b>software</b> e o onboarding técnico.</li>
+            <li>Templates e volumes podem exigir verificação do cliente conforme o caso.</li>
+            <li>Políticas de privacidade e termos devem refletir o uso do WhatsApp.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="wrap section">
+      <h2>FAQ</h2>
+
+      <div class="faq">
+        <details>
+          <summary>Preciso verificar o app a cada cliente?</summary>
+          <p>Não. Normalmente você verifica o seu Portfólio de Negócios (Business Manager) uma vez, e o app herda isso.
+             Cada cliente conecta o próprio número/conta (WABA) ao seu sistema.</p>
+        </details>
+
+        <details>
+          <summary>Os clientes precisam verificar o negócio deles?</summary>
+          <p>Depende do volume e do tipo de mensagens (ex.: templates/proativas). Muitos começam sem verificação e, ao escalar,
+             podem precisar cumprir requisitos adicionais.</p>
+        </details>
+
+        <details>
+          <summary>Este site pode ser usado para verificação?</summary>
+          <p>Sim. Esta landing existe exatamente para apresentar o produto com uma URL controlada por você.
+             Publicar via GitHub Pages é uma forma comum e aceite.</p>
+        </details>
+
+        <details>
+          <summary>Qual é a stack do MVP?</summary>
+          <p>Next.js no frontend, Supabase (DB/Auth) e integração com WhatsApp Cloud API; deploy recomendado em Vercel.</p>
+        </details>
+      </div>
+
+      <div class="cta-row" style="margin-top:18px">
+        <a class="btn primary" href="menom_pi@hotmail.com?subject=Agenda%20Blindada%20—%20Pedido%20de%20demo">Pedir demo</a>
+        <a class="btn" href="#top">Voltar ao topo</a>
+      </div>
+
+  
+    </section>
+
+    <footer class="footer">
+      <div class="wrap footer-inner">
+        <div>
+          <div class="brand" style="gap:10px">
+            <span class="logo" aria-hidden="true"></span>
+            <span>Agenda Blindada</span>
+          </div>
+          <p class="small" style="max-width:70ch; margin-top:10px">
+            Agenda profissional com WhatsApp para marcações confirmadas e dados isolados por empresa.
+          </p>
+        </div>
+
+        <div class="small">
+          <div><b>Contacto</b></div>
+          <div style="margin-top:6px"><a href="mailto:contato@exemplo.com">menom_pi@hotmail.com</a></div>
+          <div style="margin-top:10px; color:var(--muted2)">© <span id="year"></span> Agenda Blindada</div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
